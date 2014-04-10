@@ -1,1 +1,12 @@
-::: QAPortalAutoBedAPI :::
+--------- QAPortalAutoBedAPI ------------
+
+copy jars to WEB-INF/lib, deploye the 5 data services and deploye the QAPortalAutoTestResultService. 
+
+
+-----------------------------------------
+files included
+
+> dist - distribution
+  --> dependencies - jars and data services
+  --> QAPortalAutoTestResultService.aar - service
+> project - the eclipse project for the QAPortalAutoTestResultService 

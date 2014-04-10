@@ -1,0 +1,19 @@
+<data name="UpdateResultsService">
+   <config id="QADB">
+      <property name="driverClassName">com.mysql.jdbc.Driver</property>
+      <property name="url">jdbc:mysql://localhost:3306/WSO2_QA_PORTAL_DB</property>
+      <property name="username">root</property>
+      <property name="password">root</property>
+   </config>
+   <query id="updateResultsQuery" useConfig="QADB">
+      <sql>UPDATE WSO2_QAP_TEST_RESULT SET WSO2_QAP_AUTOMATION_TEST_RESULT=? WHERE WSO2_QAP_TEST_RESULT_ID IN (?)</sql>
+      <param name="WSO2_QAP_AUTOMATION_TEST_RESULT" sqlType="INTEGER"/>
+      <param name="WSO2_QAP_TEST_RESULT_ID" paramType="ARRAY" sqlType="INTEGER"/>
+   </query>
+   <operation name="updateTestResult">
+      <call-query href="updateResultsQuery">
+         <with-param name="WSO2_QAP_AUTOMATION_TEST_RESULT" query-param="WSO2_QAP_AUTOMATION_TEST_RESULT"/>
+         <with-param name="WSO2_QAP_TEST_RESULT_ID" query-param="WSO2_QAP_TEST_RESULT_ID"/>
+      </call-query>
+   </operation>
+</data>

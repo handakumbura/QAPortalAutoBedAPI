@@ -1,0 +1,24 @@
+<data name="GetTestcasesforAutoTestResultsService">
+   <description>returns the testcases that should be modified according to the automated test bed results provided.</description>
+   <config id="QADB">
+      <property name="driverClassName">com.mysql.jdbc.Driver</property>
+      <property name="url">jdbc:mysql://localhost:3306/WSO2_QA_PORTAL_DB</property>
+      <property name="username">root</property>
+      <property name="password">root</property>
+   </config>
+   <query id="getTestCasesQuery" useConfig="QADB">
+      <sql>SELECT WSO2_QAP_TEST_CASE_ID FROM WSO2_QA_PORTAL_DB.WSO2_QAP_TEST_CASE WHERE (WSO2_QAP_AUTO_TEST_CLASS_ID=(SELECT WSO2_QAP_AUTO_TEST_CLASS_ID FROM WSO2_QAP_AUTO_TEST_CLASS WHERE WSO2_QAP_AUTO_TEST_CLASS_NAME=?)) AND (WSO2_QAP_TEST_CASE_ID IN (SELECT WSO2_QAP_TEST_CASE_ID FROM WSO2_QA_PORTAL_DB.WSO2_QAP_TEST_SCENARIO_TEST_CASE_MAPPING WHERE WSO2_QAP_TEST_SCENARIO_ID IN (SELECT WSO2_QAP_TEST_SCENARIO_ID FROM WSO2_QA_PORTAL_DB.WSO2_QAP_TEST_SUIT_TEST_SCENARIO_MAPPING WHERE WSO2_QAP_TEST_SUIT_ID IN (SELECT WSO2_QAP_TEST_SUIT_ID FROM WSO2_QA_PORTAL_DB.WSO2_QAP_TESTPLAN_MAPPING_TESTSUIT WHERE WSO2_QAP_TEST_PLAN_ID=(SELECT WSO2_QAP_TEST_PLAN_ID FROM WSO2_QAP_PRODUCT_BUILD WHERE WSO2_QAP_BUILD_NAME=?)))));</sql>
+      <result element="WSO2_QAP_TEST_CASE_Collection" rowName="WSO2_QAP_TEST_CASE">
+         <element column="WSO2_QAP_TEST_CASE_ID" name="WSO2_QAP_TEST_CASE_ID" xsdType="string"/>
+      </result>
+      <param name="WSO2_QAP_AUTO_TEST_CLASS_NAME" sqlType="STRING"/>
+      <param name="WSO2_QAP_BUILD_NAME" sqlType="STRING"/>
+   </query>
+   <operation name="getTestCases">
+      <description>returns testcases maching underlying query.requries testcase name and build name as input parameters.                                     </description>
+      <call-query href="getTestCasesQuery">
+         <with-param name="WSO2_QAP_AUTO_TEST_CLASS_NAME" query-param="WSO2_QAP_AUTO_TEST_CLASS_NAME"/>
+         <with-param name="WSO2_QAP_BUILD_NAME" query-param="WSO2_QAP_BUILD_NAME"/>
+      </call-query>
+   </operation>
+</data>

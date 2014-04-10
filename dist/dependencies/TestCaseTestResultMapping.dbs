@@ -1,0 +1,22 @@
+<data name="TestCaseTestResultMapping">
+   <config id="QADB">
+      <property name="driverClassName">com.mysql.jdbc.Driver</property>
+      <property name="url">jdbc:mysql://localhost:3306/WSO2_QA_PORTAL_DB</property>
+      <property name="username">root</property>
+      <property name="password">root</property>
+   </config>
+   <query id="testCaseTestResultMappingService" useConfig="QADB">
+      <sql>SELECT WSO2_QAP_TEST_RESULT_ID FROM WSO2_QAP_TEST_RESULT WHERE WSO2_QAP_TEST_CASE_ID IN (?) AND WSO2_QAP_TEST_RESULT_ID IN (SELECT WSO2_QAP_TEST_RESULT_ID FROM WSO2_QAP_BUILD_MAPPING_TESTRESULT WHERE WSO2_QAP_BUILD_ID=(SELECT WSO2_QAP_BUILD_ID FROM  WSO2_QAP_PRODUCT_BUILD WHERE WSO2_QAP_BUILD_NAME=?))</sql>
+      <result element="WSO2_QAP_TEST_RESULT_ID_Collection" rowName="WSO2_QAP_TEST_RESULT_ID">
+         <element column="WSO2_QAP_TEST_RESULT_ID" name="WSO2_QAP_TEST_RESULT_ID" xsdType="integer"/>
+      </result>
+      <param name="WSO2_QAP_TEST_CASE_ID" paramType="ARRAY" sqlType="INTEGER"/>
+      <param name="WSO2_QAP_BUILD_NAME" sqlType="STRING"/>
+   </query>
+   <operation name="getTestCaseTestResultMapping">
+      <call-query href="testCaseTestResultMappingService">
+         <with-param name="WSO2_QAP_TEST_CASE_ID" query-param="WSO2_QAP_TEST_CASE_ID"/>
+         <with-param name="WSO2_QAP_BUILD_NAME" query-param="WSO2_QAP_BUILD_NAME"/>
+      </call-query>
+   </operation>
+</data>

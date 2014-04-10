@@ -1,0 +1,22 @@
+<data name="InsertTestResult">
+   <config id="QADB">
+      <property name="driverClassName">com.mysql.jdbc.Driver</property>
+      <property name="url">jdbc:mysql://localhost:3306/WSO2_QA_PORTAL_DB</property>
+      <property name="username">root</property>
+      <property name="password">root</property>
+   </config>
+   <query id="InsertTestResultQuery" returnGeneratedKeys="true" useConfig="QADB">
+      <sql>INSERT INTO WSO2_QAP_TEST_RESULT (WSO2_QAP_TEST_CASE_ID,WSO2_QAP_TEST_STATUS,WSO2_QAP_AUTOMATION_TEST_RESULT,WSO2_QAP_TESTED_BY) VALUES (?,1,?,'n/a');</sql>
+      <result element="GeneratedKeys" rowName="Entry" useColumnNumbers="true">
+         <element column="1" name="ID" xsdType="integer"/>
+      </result>
+      <param name="WSO2_QAP_TEST_CASE_ID" sqlType="INTEGER"/>
+      <param name="WSO2_QAP_AUTOMATION_TEST_RESULT" sqlType="INTEGER"/>
+   </query>
+   <operation name="insertTestResult">
+      <call-query href="InsertTestResultQuery">
+         <with-param name="WSO2_QAP_TEST_CASE_ID" query-param="WSO2_QAP_TEST_CASE_ID"/>
+         <with-param name="WSO2_QAP_AUTOMATION_TEST_RESULT" query-param="WSO2_QAP_AUTOMATION_TEST_RESULT"/>
+      </call-query>
+   </operation>
+</data>

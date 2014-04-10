@@ -1,0 +1,19 @@
+<data name="InsertBuildMappingTestResult">
+   <config id="QADB">
+      <property name="driverClassName">com.mysql.jdbc.Driver</property>
+      <property name="url">jdbc:mysql://localhost:3306/WSO2_QA_PORTAL_DB</property>
+      <property name="username">root</property>
+      <property name="password">root</property>
+   </config>
+   <query id="insertBuildMappingTestResult" useConfig="QADB">
+      <sql>INSERT INTO WSO2_QAP_BUILD_MAPPING_TESTRESULT VALUES ((SELECT WSO2_QAP_BUILD_ID FROM WSO2_QAP_PRODUCT_BUILD WHERE WSO2_QAP_BUILD_NAME=?),?)</sql>
+      <param name="WSO2_QAP_BUILD_NAME" sqlType="STRING"/>
+      <param name="WSO2_QAP_TEST_RESULT_ID" sqlType="INTEGER"/>
+   </query>
+   <operation name="insertBuildMappingTestResult">
+      <call-query href="insertBuildMappingTestResult">
+         <with-param name="WSO2_QAP_BUILD_NAME" query-param="WSO2_QAP_BUILD_NAME"/>
+         <with-param name="WSO2_QAP_TEST_RESULT_ID" query-param="WSO2_QAP_TEST_RESULT_ID"/>
+      </call-query>
+   </operation>
+</data>
