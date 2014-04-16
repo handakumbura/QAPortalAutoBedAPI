@@ -3,7 +3,7 @@
       <property name="driverClassName">com.mysql.jdbc.Driver</property>
       <property name="url">jdbc:mysql://localhost:3306/WSO2_QA_PORTAL_DB</property>
       <property name="username">root</property>
-      <property name="password"></property>
+      <property name="password">root</property>
    </config>
    <query id="InsertTestResultQuery" returnGeneratedKeys="true" useConfig="QADB">
       <sql>INSERT INTO WSO2_QAP_TEST_RESULT (WSO2_QAP_TEST_CASE_ID,WSO2_QAP_TEST_STATUS,WSO2_QAP_AUTOMATION_TEST_RESULT,WSO2_QAP_TESTED_BY) VALUES (?,1,?,'n/a');</sql>

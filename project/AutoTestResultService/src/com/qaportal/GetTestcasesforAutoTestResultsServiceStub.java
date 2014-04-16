@@ -444,7 +444,7 @@
         }
         return false;
     }
-     //http://192.168.43.154:9763/services/GetTestcasesforAutoTestResultsService.SOAP12Endpoint/
+     //http://10.100.5.74:9763/services/GetTestcasesforAutoTestResultsService.SOAP12Endpoint/
         public static class WSO2_QAP_TEST_CASE_Collection
         implements org.apache.axis2.databinding.ADBBean{
         /* This type was generated from the piece of schema that had
@@ -2598,6 +2598,66 @@
                                }
                             
 
+                        /**
+                        * field for WSO2_QAP_PRODUCT_VERSION
+                        */
+
+                        
+                                    protected java.lang.String localWSO2_QAP_PRODUCT_VERSION ;
+                                
+
+                           /**
+                           * Auto generated getter method
+                           * @return java.lang.String
+                           */
+                           public  java.lang.String getWSO2_QAP_PRODUCT_VERSION(){
+                               return localWSO2_QAP_PRODUCT_VERSION;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param WSO2_QAP_PRODUCT_VERSION
+                               */
+                               public void setWSO2_QAP_PRODUCT_VERSION(java.lang.String param){
+                            
+                                            this.localWSO2_QAP_PRODUCT_VERSION=param;
+                                    
+
+                               }
+                            
+
+                        /**
+                        * field for WSO2_QAP_PRODUCT_NAME
+                        */
+
+                        
+                                    protected java.lang.String localWSO2_QAP_PRODUCT_NAME ;
+                                
+
+                           /**
+                           * Auto generated getter method
+                           * @return java.lang.String
+                           */
+                           public  java.lang.String getWSO2_QAP_PRODUCT_NAME(){
+                               return localWSO2_QAP_PRODUCT_NAME;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param WSO2_QAP_PRODUCT_NAME
+                               */
+                               public void setWSO2_QAP_PRODUCT_NAME(java.lang.String param){
+                            
+                                            this.localWSO2_QAP_PRODUCT_NAME=param;
+                                    
+
+                               }
+                            
+
      
      
         /**
@@ -2688,6 +2748,42 @@
 
                                         
                                                    xmlWriter.writeCharacters(localWSO2_QAP_BUILD_NAME);
+                                            
+                                          }
+                                    
+                                   xmlWriter.writeEndElement();
+                             
+                                    namespace = "http://ws.wso2.org/dataservice";
+                                    writeStartElement(null, namespace, "WSO2_QAP_PRODUCT_VERSION", xmlWriter);
+                             
+
+                                          if (localWSO2_QAP_PRODUCT_VERSION==null){
+                                              // write the nil attribute
+                                              
+                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                  
+                                          }else{
+
+                                        
+                                                   xmlWriter.writeCharacters(localWSO2_QAP_PRODUCT_VERSION);
+                                            
+                                          }
+                                    
+                                   xmlWriter.writeEndElement();
+                             
+                                    namespace = "http://ws.wso2.org/dataservice";
+                                    writeStartElement(null, namespace, "WSO2_QAP_PRODUCT_NAME", xmlWriter);
+                             
+
+                                          if (localWSO2_QAP_PRODUCT_NAME==null){
+                                              // write the nil attribute
+                                              
+                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                  
+                                          }else{
+
+                                        
+                                                   xmlWriter.writeCharacters(localWSO2_QAP_PRODUCT_NAME);
                                             
                                           }
                                     
@@ -2890,6 +2986,18 @@
                                          elementList.add(localWSO2_QAP_BUILD_NAME==null?null:
                                          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localWSO2_QAP_BUILD_NAME));
                                     
+                                      elementList.add(new javax.xml.namespace.QName("http://ws.wso2.org/dataservice",
+                                                                      "WSO2_QAP_PRODUCT_VERSION"));
+                                 
+                                         elementList.add(localWSO2_QAP_PRODUCT_VERSION==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localWSO2_QAP_PRODUCT_VERSION));
+                                    
+                                      elementList.add(new javax.xml.namespace.QName("http://ws.wso2.org/dataservice",
+                                                                      "WSO2_QAP_PRODUCT_NAME"));
+                                 
+                                         elementList.add(localWSO2_QAP_PRODUCT_NAME==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localWSO2_QAP_PRODUCT_NAME));
+                                    
 
                 return new org.apache.axis2.databinding.utils.reader.ADBXMLStreamReaderImpl(qName, elementList.toArray(), attribList.toArray());
             
@@ -3006,6 +3114,64 @@
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setWSO2_QAP_BUILD_NAME(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+                                            
+                                       } else {
+                                           
+                                           
+                                           reader.getElementText(); // throw away text nodes if any.
+                                       }
+                                      
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                else{
+                                    // A start element we are not expecting indicates an invalid parameter was passed
+                                    throw new org.apache.axis2.databinding.ADBException("Unexpected subelement " + reader.getName());
+                                }
+                            
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://ws.wso2.org/dataservice","WSO2_QAP_PRODUCT_VERSION").equals(reader.getName())){
+                                
+                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
+                                    
+
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setWSO2_QAP_PRODUCT_VERSION(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+                                            
+                                       } else {
+                                           
+                                           
+                                           reader.getElementText(); // throw away text nodes if any.
+                                       }
+                                      
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                else{
+                                    // A start element we are not expecting indicates an invalid parameter was passed
+                                    throw new org.apache.axis2.databinding.ADBException("Unexpected subelement " + reader.getName());
+                                }
+                            
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://ws.wso2.org/dataservice","WSO2_QAP_PRODUCT_NAME").equals(reader.getName())){
+                                
+                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
+                                    
+
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setWSO2_QAP_PRODUCT_NAME(
                                                     org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
                                             
                                        } else {

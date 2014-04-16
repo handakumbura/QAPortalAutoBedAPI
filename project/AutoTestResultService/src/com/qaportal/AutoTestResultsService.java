@@ -2,24 +2,33 @@ package com.qaportal;
 
 import java.util.List;
 import java.util.ArrayList;
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
 
 public class AutoTestResultsService {
 private String testClassName;
 private String buildN;
+private String pVersion;
+private String pName;
 private int[] testCaseIds;
 private int[] testResultIds;
 private int autoResult;
 private String status;
-
+private Logger autoTestLogger;
 /*
  * In: className(class name + method name), buildName(the name of the build), result(auto test result) 
  * Out: status(whether the auto results were integrated to the database or not)
  */
-public String setResult(String className, String buildName,int result)
+public String setResult(String className, String buildName,String prodVersion, String prodName, int result)
 {
 	testClassName=className;
 	buildN=buildName;
 	autoResult=result;
+	pVersion=prodVersion;
+	pName=prodName;
+	autoTestLogger = Logger.getLogger(AutoTestResultsService.class);
+	BasicConfigurator.configure();
+	
 	try
 	{
 		/*
@@ -28,11 +37,12 @@ public String setResult(String className, String buildName,int result)
 		 */
 		GetTestcasesforAutoTestResultsServiceStub testcasesStub = new GetTestcasesforAutoTestResultsServiceStub();
 		GetTestcasesforAutoTestResultsServiceStub.GetTestCases testcasesRequest = new GetTestcasesforAutoTestResultsServiceStub.GetTestCases();
-		
 		testcasesRequest.setWSO2_QAP_AUTO_TEST_CLASS_NAME(testClassName);
 		testcasesRequest.setWSO2_QAP_BUILD_NAME(buildN);
+		testcasesRequest.setWSO2_QAP_PRODUCT_VERSION(pVersion);
+		testcasesRequest.setWSO2_QAP_PRODUCT_NAME(pName);
 		
-		
+		autoTestLogger.info(" -- invoking GetTestcasesforAutoTestResultsService. --");		
 		GetTestcasesforAutoTestResultsServiceStub.WSO2_QAP_TEST_CASE_CollectionE testCaseResponse = testcasesStub.getTestCases(testcasesRequest);
 		GetTestcasesforAutoTestResultsServiceStub.WSO2_QAP_TEST_CASE_Collection testCaseCollection = testCaseResponse.getWSO2_QAP_TEST_CASE_Collection();
 		
@@ -44,7 +54,7 @@ public String setResult(String className, String buildName,int result)
 		if(testCaseCollection.getWSO2_QAP_TEST_CASE()==null)
 		{
 			status ="FAIL";
-			
+			autoTestLogger.debug("-- no test cases for params provided. --");
 		}
 		else
 		{
@@ -68,9 +78,9 @@ public String setResult(String className, String buildName,int result)
 			
 			TestCaseTestResultMappingStub.WSO2_QAP_TEST_RESULT_ID_CollectionE testResultResponse = testResultStub.getTestCaseTestResultMapping(testResultRequest);
 			TestCaseTestResultMappingStub.WSO2_QAP_TEST_RESULT_ID_Collection testResultCollection = testResultResponse.getWSO2_QAP_TEST_RESULT_ID_Collection();
-			TestCaseTestResultMappingStub.WSO2_QAP_TEST_RESULT_ID[] testResultArray = testResultCollection.getWSO2_QAP_TEST_RESULT_ID(); 
 			
-			if(testResultArray.length==0)
+			
+			if(testResultCollection.getWSO2_QAP_TEST_RESULT_ID()==null)
 			{
 				
 				
@@ -100,6 +110,8 @@ public String setResult(String className, String buildName,int result)
 			}
 			else
 			{
+				TestCaseTestResultMappingStub.WSO2_QAP_TEST_RESULT_ID[] testResultArray = testResultCollection.getWSO2_QAP_TEST_RESULT_ID(); 
+				
 				testResultIds = new int[testResultArray.length];
 			    for (int i=0; i < testResultIds.length; i++)
 			    {
@@ -125,7 +137,7 @@ public String setResult(String className, String buildName,int result)
 	}
 	catch(Exception ex)
 	{
-		status="FAIL:EXCEPTION";
+		status="FAIL";
 		ex.printStackTrace();
 	}
 	

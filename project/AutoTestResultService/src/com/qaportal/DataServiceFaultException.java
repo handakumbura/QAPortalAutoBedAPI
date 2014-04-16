@@ -10,7 +10,7 @@ package com.qaportal;
 
 public class DataServiceFaultException extends java.lang.Exception{
 
-    private static final long serialVersionUID = 1397528480810L;
+    private static final long serialVersionUID = 1397627891982L;
     
     private com.qaportal.GetTestcasesforAutoTestResultsServiceStub.DataServiceFault faultMessage;
 
