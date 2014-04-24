@@ -1,6 +1,6 @@
-<service name="AutoTestResultsService" scope="application">
+<service name="WSO2_QAP_AutoTestResultsService" scope="application">
 	<Description>
-		Please Type your service description here
+		Service for submitting automated test bed results to the QA Portal.
 	</Description>
 	<messageReceivers>
 		<messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" />

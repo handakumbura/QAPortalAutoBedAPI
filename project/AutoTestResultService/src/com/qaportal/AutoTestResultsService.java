@@ -14,9 +14,11 @@ private int[] testResultIds;
 private int autoResult;
 private String status;
 private Logger autoTestLogger;
+
 /*
  * In: className(class name + method name), buildName(the name of the build), pVersion(product version), pName(product name), result(auto test result)
  * Out: status(whether the auto results were integrated to the database or not)
+ *  
  */
 public String setResult(String className, String buildName,String prodVersion, String prodName, int result)
 {
@@ -28,13 +30,25 @@ public String setResult(String className, String buildName,String prodVersion, S
 	autoTestLogger = Logger.getLogger(AutoTestResultsService.class);
 	BasicConfigurator.configure();
 	
+	/*
+	 * IMPORTANT: it is assumed that the data services used here and this service is hosted in the same server.
+	 * if they are hosted in different servers, the end point URL for each data service must be changed using the params below.
+	 * 
+	 */
+	String GetTestcasesforAutoTestResultsServiceURL = "http://localhost:9763/services/WSO2_QAP_GetTestcasesforAutoTestResultsService.SOAP12Endpoint/";
+	String TestCaseTestResultMappingURL = "http://localhost:9763/services/WSO2_QAP_TestCaseTestResultMapping.SOAP12Endpoint/";
+	String InsertTestResultURL = "http://localhost:9763/services/WSO2_QAP_InsertTestResult.SOAP12Endpoint/";
+	String InsertBuildMappingTestResultURL = "http://localhost:9763/services/WSO2_QAP_InsertBuildMappingTestResult.SOAP12Endpoint/";
+	String UpdateResultsServiceURL = "http://localhost:9763/services/WSO2_QAP_UpdateResultsService.SOAP12Endpoint/";
+	
+	
 	try
 	{
 		/*
 		 * invokes the GetTestcasesforAutoTestResultsService,
 		 * gets the test case IDs which are affected by the auto bed results. 
 		 */
-		GetTestcasesforAutoTestResultsServiceStub testcasesStub = new GetTestcasesforAutoTestResultsServiceStub();
+		GetTestcasesforAutoTestResultsServiceStub testcasesStub = new GetTestcasesforAutoTestResultsServiceStub(GetTestcasesforAutoTestResultsServiceURL);
 		GetTestcasesforAutoTestResultsServiceStub.GetTestCases testcasesRequest = new GetTestcasesforAutoTestResultsServiceStub.GetTestCases();
 		testcasesRequest.setWSO2_QAP_AUTO_TEST_CLASS_NAME(testClassName);
 		testcasesRequest.setWSO2_QAP_BUILD_NAME(buildN);
@@ -70,7 +84,7 @@ public String setResult(String className, String buildName,String prodVersion, S
 		     * the test result ids for the test cases are found using the TestCaseTestResultMapping service
 		     * if the service returns no test result ids, new test results are entered, if not appropriate test results are updated.    
 		     */
-			TestCaseTestResultMappingStub testResultStub = new TestCaseTestResultMappingStub();
+			TestCaseTestResultMappingStub testResultStub = new TestCaseTestResultMappingStub(TestCaseTestResultMappingURL);
 			TestCaseTestResultMappingStub.GetTestCaseTestResultMapping testResultRequest = new TestCaseTestResultMappingStub.GetTestCaseTestResultMapping();
 			
 			testResultRequest.setWSO2_QAP_TEST_CASE_ID(testCaseIds);
@@ -89,7 +103,7 @@ public String setResult(String className, String buildName,String prodVersion, S
 				autoTestLogger.info("Inserting new test results to DB");
 				for(int testcase : testCaseIds)
 				{
-					InsertTestResultStub insertResultStub = new InsertTestResultStub();
+					InsertTestResultStub insertResultStub = new InsertTestResultStub(InsertTestResultURL);
 					InsertTestResultStub.InsertTestResult insertResultRequest = new InsertTestResultStub.InsertTestResult(); 
 					
 					insertResultRequest.setWSO2_QAP_TEST_CASE_ID(testcase);
@@ -99,7 +113,7 @@ public String setResult(String className, String buildName,String prodVersion, S
 					InsertTestResultStub.GeneratedKeys generatedKey = insertResponse.getGeneratedKeys();
 					InsertTestResultStub.Entry[] entry = generatedKey.getEntry();
 					
-					InsertBuildMappingTestResultStub buildMapstub = new InsertBuildMappingTestResultStub();
+					InsertBuildMappingTestResultStub buildMapstub = new InsertBuildMappingTestResultStub(InsertBuildMappingTestResultURL);
 					InsertBuildMappingTestResultStub.InsertBuildMappingTestResult buildMapRequest = new InsertBuildMappingTestResultStub.InsertBuildMappingTestResult();
 					
 					buildMapRequest.setWSO2_QAP_BUILD_NAME(buildN);
@@ -122,7 +136,7 @@ public String setResult(String className, String buildName,String prodVersion, S
 			    }
 			    
 			    //updating the appropriate test results.
-			    UpdateResultsServiceStub updateStub = new UpdateResultsServiceStub();
+			    UpdateResultsServiceStub updateStub = new UpdateResultsServiceStub(UpdateResultsServiceURL);
 			    UpdateResultsServiceStub.UpdateTestResult updateRequest = new UpdateResultsServiceStub.UpdateTestResult();
 			    
 			    updateRequest.setWSO2_QAP_TEST_RESULT_ID(testResultIds);

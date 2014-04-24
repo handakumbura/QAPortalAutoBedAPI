@@ -110,7 +110,7 @@
      */
     public GetTestcasesforAutoTestResultsServiceStub(org.apache.axis2.context.ConfigurationContext configurationContext) throws org.apache.axis2.AxisFault {
         
-                    this(configurationContext,"http://localhost:9763/services/GetTestcasesforAutoTestResultsService.SOAP12Endpoint/" );
+                    this(configurationContext,"http://localhost:9763/services/WSO2_QAP_GetTestcasesforAutoTestResultsService.SOAP12Endpoint/" );
                 
     }
 
@@ -119,7 +119,7 @@
      */
     public GetTestcasesforAutoTestResultsServiceStub() throws org.apache.axis2.AxisFault {
         
-                    this("http://localhost:9763/services/GetTestcasesforAutoTestResultsService.SOAP12Endpoint/" );
+                    this("http://localhost:9763/services/WSO2_QAP_GetTestcasesforAutoTestResultsService.SOAP12Endpoint/" );
                 
     }
 

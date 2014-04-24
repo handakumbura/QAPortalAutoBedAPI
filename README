@@ -8,6 +8,6 @@ files included
 
 > dist - distribution
   --> dependencies - data services
-  --> AutoTestResultsService.aar - service
+  --> WSO2_QAP_AutoTestResultsService.aar - service 
 > project - the eclipse project for the AutoTestResultService
 > old - the axis 2 specific service and dependancy jars 

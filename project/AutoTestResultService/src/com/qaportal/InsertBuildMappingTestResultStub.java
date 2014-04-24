@@ -106,7 +106,7 @@
      */
     public InsertBuildMappingTestResultStub(org.apache.axis2.context.ConfigurationContext configurationContext) throws org.apache.axis2.AxisFault {
         
-                    this(configurationContext,"http://localhost:9763/services/InsertBuildMappingTestResult.SOAP12Endpoint/" );
+                    this(configurationContext,"http://localhost:9763/services/WSO2_QAP_InsertBuildMappingTestResult.SOAP12Endpoint/" );
                 
     }
 
@@ -115,7 +115,7 @@
      */
     public InsertBuildMappingTestResultStub() throws org.apache.axis2.AxisFault {
         
-                    this("http://localhost:9763/services/InsertBuildMappingTestResult.SOAP12Endpoint/" );
+                    this("http://localhost:9763/services/WSO2_QAP_InsertBuildMappingTestResult.SOAP12Endpoint/" );
                 
     }
 

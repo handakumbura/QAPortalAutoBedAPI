@@ -106,7 +106,7 @@
      */
     public UpdateResultsServiceStub(org.apache.axis2.context.ConfigurationContext configurationContext) throws org.apache.axis2.AxisFault {
         
-                    this(configurationContext,"http://localhost:9763/services/UpdateResultsService.SOAP12Endpoint/" );
+                    this(configurationContext,"http://localhost:9763/services/WSO2_QAP_UpdateResultsService.SOAP12Endpoint/" );
                 
     }
 
@@ -115,7 +115,7 @@
      */
     public UpdateResultsServiceStub() throws org.apache.axis2.AxisFault {
         
-                    this("http://localhost:9763/services/UpdateResultsService.SOAP12Endpoint/" );
+                    this("http://localhost:9763/services/WSO2_QAP_UpdateResultsService.SOAP12Endpoint/" );
                 
     }
 
