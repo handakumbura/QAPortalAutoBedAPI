@@ -1,0 +1,29 @@
+<data name="WSO2_QAP_GetBuildNamesService">
+   <description>Retrieves the latest build name for a specific product and version.                                                                                                                                                                </description>
+   <config id="QADB">
+      <property name="driverClassName">com.mysql.jdbc.Driver</property>
+      <property name="url">jdbc:mysql://localhost:3306/WSO2_QA_PORTAL_DB</property>
+      <property name="username">root</property>
+      <property name="password">root</property>
+   </config>
+   <query id="GetBuildNamesQuery" useConfig="QADB">
+      <sql>SELECT WSO2_QAP_BUILD_NAME FROM WSO2_QAP_PRODUCT_BUILD WHERE WSO2_QAP_BUILD_ID=(SELECT MAX(WSO2_QAP_BUILD_ID)  FROM WSO2_QAP_PRODUCT_BUILD WHERE WSO2_QAP_PRODUCT_VERSION_ID =(SELECT WSO2_QAP_PRODUCT_VERSION_ID FROM WSO2_QAP_PRODUCT_VERSION WHERE WSO2_QAP_PRODUCT_VERSION =? AND WSO2_QAP_PRODUCT_ID=(SELECT WSO2_QAP_PRODUCT_ID FROM WSO2_QAP_PRODUCT WHERE WSO2_QAP_PRODUCT_NAME=?)))</sql>
+      <result element="WSO2_QAP_BUILD_NAME_Collection" rowName="WSO2_QAP_BUILD_NAME">
+         <element column="WSO2_QAP_BUILD_NAME" name="WSO2_QAP_BUILD_NAME" xsdType="string"/>
+      </result>
+      <param name="WSO2_QAP_PRODUCT_VERSION" sqlType="STRING"/>
+      <param name="WSO2_QAP_PRODUCT_NAME" sqlType="STRING"/>
+   </query>
+   <operation name="getBuildNames">
+      <call-query href="GetBuildNamesQuery">
+         <with-param name="WSO2_QAP_PRODUCT_VERSION" query-param="WSO2_QAP_PRODUCT_VERSION"/>
+         <with-param name="WSO2_QAP_PRODUCT_NAME" query-param="WSO2_QAP_PRODUCT_NAME"/>
+      </call-query>
+   </operation>
+   <resource method="GET" path="buildnames">
+      <call-query href="GetBuildNamesQuery">
+         <with-param name="WSO2_QAP_PRODUCT_VERSION" query-param="WSO2_QAP_PRODUCT_VERSION"/>
+         <with-param name="WSO2_QAP_PRODUCT_NAME" query-param="WSO2_QAP_PRODUCT_NAME"/>
+      </call-query>
+   </resource>
+</data>

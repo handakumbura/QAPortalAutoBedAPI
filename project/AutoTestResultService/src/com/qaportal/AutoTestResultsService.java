@@ -1,7 +1,6 @@
 package com.qaportal;
 
-import java.util.List;
-import java.util.ArrayList;
+
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
@@ -16,7 +15,7 @@ private int autoResult;
 private String status;
 private Logger autoTestLogger;
 /*
- * In: className(class name + method name), buildName(the name of the build), result(auto test result) 
+ * In: className(class name + method name), buildName(the name of the build), pVersion(product version), pName(product name), result(auto test result)
  * Out: status(whether the auto results were integrated to the database or not)
  */
 public String setResult(String className, String buildName,String prodVersion, String prodName, int result)
@@ -42,7 +41,7 @@ public String setResult(String className, String buildName,String prodVersion, S
 		testcasesRequest.setWSO2_QAP_PRODUCT_VERSION(pVersion);
 		testcasesRequest.setWSO2_QAP_PRODUCT_NAME(pName);
 		
-		autoTestLogger.info(" -- invoking GetTestcasesforAutoTestResultsService. --");		
+		autoTestLogger.info("Invoking GetTestcasesforAutoTestResults Service");		
 		GetTestcasesforAutoTestResultsServiceStub.WSO2_QAP_TEST_CASE_CollectionE testCaseResponse = testcasesStub.getTestCases(testcasesRequest);
 		GetTestcasesforAutoTestResultsServiceStub.WSO2_QAP_TEST_CASE_Collection testCaseCollection = testCaseResponse.getWSO2_QAP_TEST_CASE_Collection();
 		
@@ -54,10 +53,11 @@ public String setResult(String className, String buildName,String prodVersion, S
 		if(testCaseCollection.getWSO2_QAP_TEST_CASE()==null)
 		{
 			status ="FAIL";
-			autoTestLogger.debug("-- no test cases for params provided. --");
+			autoTestLogger.info("No Testcases found for params provided!. PARAMS: "+testClassName+" , "+buildN+" , "+pName+" , "+pVersion+" , "+autoResult);			
 		}
 		else
 		{
+			autoTestLogger.info("Testcases successfully retrieved");
 			GetTestcasesforAutoTestResultsServiceStub.WSO2_QAP_TEST_CASE[] testcasesArray = testCaseCollection.getWSO2_QAP_TEST_CASE();
 			
 			testCaseIds = new int[testcasesArray.length];
@@ -76,6 +76,7 @@ public String setResult(String className, String buildName,String prodVersion, S
 			testResultRequest.setWSO2_QAP_TEST_CASE_ID(testCaseIds);
 			testResultRequest.setWSO2_QAP_BUILD_NAME(buildN);
 			
+			autoTestLogger.info("Invoking TestCaseTestResultMapping Service");
 			TestCaseTestResultMappingStub.WSO2_QAP_TEST_RESULT_ID_CollectionE testResultResponse = testResultStub.getTestCaseTestResultMapping(testResultRequest);
 			TestCaseTestResultMappingStub.WSO2_QAP_TEST_RESULT_ID_Collection testResultCollection = testResultResponse.getWSO2_QAP_TEST_RESULT_ID_Collection();
 			
@@ -85,6 +86,7 @@ public String setResult(String className, String buildName,String prodVersion, S
 				
 				
 				//inserting test results for each test case id.
+				autoTestLogger.info("Inserting new test results to DB");
 				for(int testcase : testCaseIds)
 				{
 					InsertTestResultStub insertResultStub = new InsertTestResultStub();
@@ -125,9 +127,9 @@ public String setResult(String className, String buildName,String prodVersion, S
 			    
 			    updateRequest.setWSO2_QAP_TEST_RESULT_ID(testResultIds);
 			    updateRequest.setWSO2_QAP_AUTOMATION_TEST_RESULT(autoResult);
-			    
+			    autoTestLogger.info("Updating Test Results");
 			    updateStub.updateTestResult(updateRequest);
-				
+			    
 			    status="PASS";
 			}
 			
